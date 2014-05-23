@@ -1,0 +1,20 @@
+{
+  "name": "sublime-tabs",
+  "main": "./lib/sublime-tabs",
+  "version": "0.0.0",
+  "description": "Sublime style tabs",
+  "repository": "https://github.com/ddavison/sublime-tabs",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "fs-plus": "^2.0.4",
+    "runas": "~0.5.4",
+    "temp": "~0.6.0",
+    "theorist": "1.x",
+    "underscore-plus": "1.x",
+    "wrench": "1.5.x"
+  }
+}

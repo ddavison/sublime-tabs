@@ -1,0 +1,6 @@
+[submodule "lib/tree-view"]
+	path = lib/tree-view
+	url = git://github.com/atom/tree-view.git
+[submodule "lib/tabs"]
+	path = lib/tabs
+	url = git://github.com/atom/tabs.git
