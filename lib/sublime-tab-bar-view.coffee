@@ -16,5 +16,5 @@ class SublimeTabBarView extends TabBarView
     for tab in @getTabs()
       @closeTab(tab) if tab.is('.temp')
 
-    tab.updateTitle() for tab in @getTabs()
     @insertTabAtIndex(new SublimeTabView(item, @pane), index)
+    @updateActiveTab()
