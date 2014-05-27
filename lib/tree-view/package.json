@@ -1,0 +1,20 @@
+{
+  "name": "tree-view",
+  "version": "0.93.0",
+  "main": "./lib/tree",
+  "description": "Explore and open files in the current project.",
+  "repository": "https://github.com/atom/tree-view",
+  "license": "MIT",
+  "engines": {
+    "atom": "*"
+  },
+  "private": true,
+  "dependencies": {
+    "fs-plus": "^2.0.4",
+    "runas": "~0.5.4",
+    "temp": "~0.6.0",
+    "theorist": "1.x",
+    "underscore-plus": "1.x",
+    "wrench": "1.5.x"
+  }
+}

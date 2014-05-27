@@ -12,7 +12,6 @@ class SublimeTabView extends TabView
 
   updateModifiedStatus: ->
     if @item.isModified?()
-      console.log "modified: #{@item.isModified?()} : #{@is('.temp')}"
       @addClass('modified') unless @isModified
       @removeClass('temp') if @is('.temp')
       @isModified = true
