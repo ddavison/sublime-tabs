@@ -15,7 +15,8 @@ Install either through the Atom package search, or by:
 $ apm install sublime-tabs
 ```
 
-This is a replacement for the `Tabs` package.  Open your Settings, and disable the `Tabs` package by searching for it and clicking "Disable"
+This is a replacement for the `Tabs` and `Tree View` package.  Open your Settings, and disable both the `Tabs` and `Tree View` package by searching for it and clicking "Disable" on them.
+If you don't do this, you will see multiple tree or tab views.
 
 ## Uninstall
 This is an early version, so it *may* screw things up.  If it does, you can re-enable `Tabs`, and disable `sublime-tabs`.
