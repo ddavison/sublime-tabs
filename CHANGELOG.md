@@ -1,3 +1,6 @@
+## 0.2.1
+* Added DblClick support.  Users can now double click to open a tab which makes it not temporary.
+
 ## 0.2.0
 * Made sublime-tabs actually work. (v.0.1 was a lemon due to Atom not being able to include git submodules)
 
