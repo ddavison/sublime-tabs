@@ -1,0 +1,54 @@
+'menu': [
+  {
+    'label': 'View'
+    'submenu': [
+      { 'label': 'Toggle Tree View', 'command': 'tree-view:toggle' }
+    ]
+  }
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Tree View'
+      'submenu': [
+        { 'label': 'Focus', 'command': 'tree-view:toggle-focus' }
+        { 'label': 'Toggle', 'command': 'tree-view:toggle' }
+        { 'label': 'Reveal Active File', 'command': 'tree-view:reveal-active-file' }
+        { 'label': 'Toggle Tree Side', 'command': 'tree-view:toggle-side' }
+      ]
+    ]
+  }
+]
+
+'context-menu':
+  '.tree-view.full-menu':
+    'Add File': 'tree-view:add-file'
+    'Add Folder': 'tree-view:add-folder'
+    'Rename': 'tree-view:move'
+    'Duplicate': 'tree-view:duplicate'
+    'Delete': 'tree-view:remove'
+    'Copy': 'tree-view:copy'
+    'Cut': 'tree-view:cut'
+    'Paste': 'tree-view:paste'
+    'Copy Full Path': 'tree-view:copy-full-path'
+    'Copy Project Path': 'tree-view:copy-project-path'
+
+  '.platform-darwin .tree-view.full-menu':
+    'Show in Finder': 'tree-view:show-in-file-manager'
+
+  '.platform-win32 .tree-view.full-menu':
+    'Show in Explorer': 'tree-view:show-in-file-manager'
+
+  '.platform-linux .tree-view.full-menu':
+    'Show in File Manager': 'tree-view:show-in-file-manager'
+
+  '.tree-view.multi-select':
+    'Delete': 'tree-view:remove'
+    'Copy': 'tree-view:copy'
+    'Cut': 'tree-view:cut'
+    'Paste': 'tree-view:paste'
+
+  '.pane .item-views':
+    'Reveal in Tree View': 'tree-view:reveal-active-file'
+
+  '.pane .tab.active':
+    'Reveal in Tree View': 'tree-view:reveal-active-file'
