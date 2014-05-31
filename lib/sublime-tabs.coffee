@@ -18,6 +18,8 @@ module.exports =
   treeView: null
 
   activate: (@state) ->
+    @forceSettings()
+
     # tabs
     @paneSubscription = atom.workspaceView.eachPaneView (paneView) =>
       tabBarView = new SublimeTabBarView(paneView)
@@ -77,3 +79,25 @@ module.exports =
       atom.project.getPath() is atom.getLoadSettings().pathToOpen
     else
       true
+
+  forceSettings: ->
+    @forceSettingKey('tabs','showIcons')
+    atom.config.observe 'sublime-tabs.' + 'showIcons', =>
+      @forceSettingKey('tabs','showIcons')
+
+    @forceSettingKey('tree-view','hideVcsIgnoredFiles')
+    atom.config.observe 'sublime-tabs.' + 'hideVcsIgnoredFiles', =>
+      @forceSettingKey('tree-view','hideVcsIgnoredFiles')
+
+    @forceSettingKey('tree-view','hideIgnoredNames')
+    atom.config.observe 'sublime-tabs.' + 'hideIgnoredNames', =>
+      @forceSettingKey('tree-view','hideIgnoredNames')
+
+    @forceSettingKey('tree-view','showOnRightSide')
+    atom.config.observe 'sublime-tabs.' + 'showOnRightSide', =>
+      @forceSettingKey('tree-view','showOnRightSide')
+
+  forceSettingKey: (masterKey, key) ->
+    value = atom.config.get 'sublime-tabs.' + "#{key}"
+    value ?= atom.config.getDefault 'sublime-tabs.' + "#{key}"
+    atom.config.set(masterKey + '.' + key, atom.config.get('sublime-tabs.' + "#{key}"))
