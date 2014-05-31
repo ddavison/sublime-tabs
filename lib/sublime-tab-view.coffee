@@ -1,7 +1,7 @@
 {$} = require 'atom'
 _ = require 'underscore-plus'
 path = require 'path'
-TabView = require './tabs/lib/tab-view'
+TabView = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-view'
 
 module.exports =
 class SublimeTabView extends TabView
