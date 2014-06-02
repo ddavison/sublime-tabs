@@ -58,7 +58,6 @@ module.exports =
     tabBarView.remove() for tabBarView in @tabBarViews ? []
 
     # tree view
-    SublimeTree.deactivate()
     @treeView?.deactivate()
     @treeView = null
 
