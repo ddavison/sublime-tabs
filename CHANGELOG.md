@@ -1,4 +1,4 @@
-## 0.2.2
+## 0.3.1
 * Added option to keep tab. Useful for tabs that you open from packages, or the Settings tab.
 
 ## 0.2.1
