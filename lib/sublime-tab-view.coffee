@@ -10,6 +10,8 @@ class SublimeTabView extends TabView
     super(@item, @pane)
     @addClass('temp')
 
+    atom.workspaceView.command 'sublime-tabs:keep-tab', => @keepTab()
+
   updateModifiedStatus: ->
     if @item.isModified?()
       @addClass('modified') unless @isModified
@@ -18,3 +20,6 @@ class SublimeTabView extends TabView
     else
       @removeClass('modified') if @isModified
       @isModified = false
+
+  keepTab: ->
+    @removeClass('temp') if @is('.temp')

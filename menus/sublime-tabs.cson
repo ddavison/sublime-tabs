@@ -1,5 +1,6 @@
 'context-menu':
   '.tab':
+    'Keep Tab': 'sublime-tabs:keep-tab'
     'Close Tab': 'tabs:close-tab'
     'Close Other Tabs': 'tabs:close-other-tabs'
     'Close Tabs to the Right': 'tabs:close-tabs-to-right'
