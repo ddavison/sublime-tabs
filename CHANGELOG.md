@@ -1,3 +1,6 @@
+## 0.2.2
+* Added option to keep tab. Useful for tabs that you open from packages, or the Settings tab.
+
 ## 0.2.1
 * Added DblClick support.  Users can now double click to open a tab which makes it not temporary.
 
