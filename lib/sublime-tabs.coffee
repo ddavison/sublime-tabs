@@ -53,14 +53,13 @@ module.exports =
       @state
 
   deactivate: ->
+    # tree view
+    @treeView?.deactivate()
+    @treeView = null
+
     # tabs
     @paneSubscription?.off()
     tabBarView.remove() for tabBarView in @tabBarViews ? []
-
-    # tree view
-    SublimeTree.deactivate()
-    @treeView?.deactivate()
-    @treeView = null
 
   # tree view
   createView: ->
