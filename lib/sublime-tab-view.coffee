@@ -8,7 +8,7 @@ class SublimeTabView extends TabView
 
   initialize: (@item, @pane) ->
     super(@item, @pane)
-    @addClass('temp')
+    @addClass('temp') if @item.constructor.name is 'Editor'
 
     atom.workspaceView.command 'sublime-tabs:keep-tab', => @keepTab()
 
