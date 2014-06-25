@@ -13,8 +13,6 @@ class SublimeTabView extends TabView
         _.remove(openPermanent, @item.getPath())
       else
         @addClass('temp')
-    @subscribe $(window), 'window:open-path', (event, {pathToOpen}) ->
-
 
     atom.workspaceView.command 'sublime-tabs:keep-tab', => @keepTab()
 
