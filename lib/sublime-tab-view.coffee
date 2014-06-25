@@ -6,9 +6,15 @@ TabView = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-view'
 module.exports =
 class SublimeTabView extends TabView
 
-  initialize: (@item, @pane) ->
+  initialize: (@item, @pane, openPermanent=[]) ->
     super(@item, @pane)
-    @addClass('temp') if @item.constructor.name is 'Editor'
+    if @item.constructor.name is 'Editor'
+      if @item.getPath() in openPermanent
+        _.remove(openPermanent, @item.getPath())
+      else
+        @addClass('temp')
+    @subscribe $(window), 'window:open-path', (event, {pathToOpen}) ->
+
 
     atom.workspaceView.command 'sublime-tabs:keep-tab', => @keepTab()
 
