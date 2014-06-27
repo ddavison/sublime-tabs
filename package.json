@@ -10,11 +10,6 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "fs-plus": "^2.0.4",
-    "runas": "~0.5.4",
-    "temp": "~0.6.0",
-    "theorist": "1.x",
-    "underscore-plus": "1.x",
-    "wrench": "1.5.x"
+    "underscore-plus": "1.x"
   }
 }

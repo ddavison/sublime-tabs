@@ -1,10 +1,7 @@
-BrowserWindow = null # Defer require until actually used
-RendererIpc = require('ipc')
+{$}             = require 'atom'
 
-{$} = require 'atom'
-_ = require 'underscore-plus'
-TabBarView = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-bar-view'
-SublimeTabView = require './sublime-tab-view'
+TabBarView      = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-bar-view'
+SublimeTabView  = require './sublime-tab-view'
 
 module.exports =
 class SublimeTabBarView extends TabBarView

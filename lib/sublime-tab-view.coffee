@@ -1,6 +1,6 @@
-{$} = require 'atom'
-_ = require 'underscore-plus'
-path = require 'path'
+_       = require 'underscore-plus'
+path    = require 'path'
+{$}     = require 'atom'
 TabView = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-view'
 
 module.exports =
@@ -17,13 +17,8 @@ class SublimeTabView extends TabView
     atom.workspaceView.command 'sublime-tabs:keep-tab', => @keepTab()
 
   updateModifiedStatus: ->
-    if @item.isModified?()
-      @addClass('modified') unless @isModified
-      @removeClass('temp') if @is('.temp')
-      @isModified = true
-    else
-      @removeClass('modified') if @isModified
-      @isModified = false
+    super()
+    @removeClass('temp') if @is('.temp') and @item.isModified?()
 
   keepTab: ->
     @removeClass('temp') if @is('.temp')
