@@ -9,7 +9,7 @@ describe "Sublime Tabs Package", ->
     atom.workspaceView = new WorkspaceView
 
     waitsForPromise ->
-      atom.workspace.open('sample.coffee')
+      atom.workspace.open('sample.js')
 
     waitsForPromise ->
       atom.packages.activatePackage('sublime-tabs')
@@ -34,7 +34,7 @@ describe 'SublimeTabBarView', ->
     item2 = new TestView('Item 2')
 
     waitsForPromise ->
-      atom.workspace.open('sample.coffee')
+      atom.workspace.open('sample.js')
 
     runs ->
       editor1 = atom.workspace.getActiveEditor()
