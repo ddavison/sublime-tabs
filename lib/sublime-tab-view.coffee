@@ -6,8 +6,10 @@ TabView = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-view'
 module.exports =
 class SublimeTabView extends TabView
 
-  initialize: (@item, @pane, openPermanent=[]) ->
+  initialize: (@item, @pane, openPermanent=[], considerTemporary) ->
     super(@item, @pane)
+    return unless considerTemporary
+
     if @item.constructor.name is 'Editor'
       if @item.getPath() in openPermanent
         _.remove(openPermanent, @item.getPath())
