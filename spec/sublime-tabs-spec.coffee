@@ -4,12 +4,12 @@ path                      = require 'path'
 SublimeTabBarView         = require '../lib/sublime-tab-bar-view'
 SublimeTabView            = require '../lib/sublime-tab-view'
 
-describe "Sublime Tabs Package", ->
+describe 'Sublime Tabs Package', ->
   beforeEach: ->
     atom.workspaceView = new WorkspaceView
 
     waitsForPromise ->
-      atom.workspace.open('sample.coffee')
+      atom.workspace.open('sample.js')
 
     waitsForPromise ->
       atom.packages.activatePackage('sublime-tabs')
@@ -34,7 +34,7 @@ describe 'SublimeTabBarView', ->
     item2 = new TestView('Item 2')
 
     waitsForPromise ->
-      atom.workspace.open('sample.coffee')
+      atom.workspace.open('sample.js')
 
     runs ->
       editor1 = atom.workspace.getActiveEditor()
@@ -48,23 +48,68 @@ describe 'SublimeTabBarView', ->
     atom.deserializers.remove(TestView)
 
   describe 'Temporary Tabs', ->
-    it 'adds a temp class when opening a file', ->
-      editor2 = null
+    describe 'Opening a new tab', ->
+      it 'adds a temp class when opening a file', ->
+        editor2 = null
 
-      waitsForPromise ->
-        atom.project.open('sample.txt').then (o) -> editor2 = o
+        waitsForPromise ->
+          atom.project.open('sample.txt').then (o) -> editor2 = o
 
-      runs ->
-        pane.activateItem(editor2)
-        expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
+        runs ->
+          pane.activateItem(editor2)
+          expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
 
-    it 'makes the tab permanent when dbl clicking the tab', ->
-      editor2 = null
 
-      waitsForPromise ->
-        atom.project.open('sample.txt').then (o) -> editor2 = o
 
-      runs ->
-        pane.activateItem(editor2)
-        tabBar.tabForItem(editor2).trigger 'dblclick'
-        expect(tabBar.tabForItem(editor2)).not.toHaveClass 'temp'
+      describe 'when there is an temp tab already', ->
+        it 'will replace an existing temporary tab', ->
+          editor2 = null
+          editor3 = null
+
+          waitsForPromise ->
+            atom.project.open('sample.txt').then (o) ->
+              editor2 = o
+              pane.activateItem(editor2)
+              atom.project.open('sample2.txt').then (o) ->
+                editor3 = o
+                pane.activateItem(editor3)
+
+          runs ->
+            expect(editor2.isDestroyed()).toBe true
+            expect(editor3.isDestroyed()).toBe false
+            expect(tabBar.tabForItem(editor2)).not.toExist()
+            expect(tabBar.tabForItem(editor3)).toHaveClass 'temp'
+
+        it 'makes the tab permanent when dbl clicking the tab', ->
+          editor2 = null
+
+          waitsForPromise ->
+            atom.project.open('sample.txt').then (o) -> editor2 = o
+
+          runs ->
+            pane.activateItem(editor2)
+            tabBar.tabForItem(editor2).trigger 'dblclick'
+            expect(tabBar.tabForItem(editor2)).not.toHaveClass 'temp'
+
+      describe 'when opening views that do not contain an editor', ->
+        editor2 = null
+        settingsView = null
+
+        beforeEach ->
+          waitsForPromise ->
+            atom.project.open('sample.txt').then (o) ->
+              editor2 = o
+              pane.activateItem(editor2)
+
+          waitsForPromise ->
+            atom.packages.activatePackage('settings-view').then ->
+              atom.workspaceView.open('atom://config').then (o) ->
+                settingsView = o
+                pane.activateItem(settingsView)
+
+        it 'creates a permanent tab', ->
+          expect(tabBar.tabForItem(settingsView)).toExist()
+          expect(tabBar.tabForItem(settingsView)).not.toHaveClass 'temp'
+
+        it 'replaces an existing temp tab', ->
+          expect(tabBar.tabForItem(editor2)).not.toExist()

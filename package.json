@@ -10,6 +10,10 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "underscore-plus": "1.x"
+    "underscore-plus": "1.x",
+    "fs-plus": "^2.0.4",
+    "temp": "~0.7.0",
+    "theorist": "1.x",
+    "wrench": "1.5.x"
   }
 }

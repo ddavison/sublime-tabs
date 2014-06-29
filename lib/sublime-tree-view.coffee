@@ -8,8 +8,9 @@ class SublimeTreeView extends TreeView
     super(state)
 
     @on 'dblclick', '.entry', (e) ->
-      return if e.shiftKey || e.metaKey
+      return if e.shiftKey || e.metaKey || e.altKey
       atom.workspaceView.find('.tab-bar .tab.active').removeClass('temp')
+      false
 
   entryDblClicked: (e) ->
     @selectedEntry = $(e.currentTarget).view()
