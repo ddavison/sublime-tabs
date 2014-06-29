@@ -21,6 +21,11 @@ class SublimeTabBarView extends TabBarView
     # Tabs added manually by the user should consider temporary status.
     @considerTemp = true
 
+    @on 'dblclick', '.tab', ({target}) ->
+      tab = $(target).closest('.tab').view()
+      tab.removeClass('temp') if tab.is('.temp')
+      false
+
   addTabForItem: (item, index) ->
     for tab in @getTabs()
       @closeTab(tab) if tab.is('.temp')
