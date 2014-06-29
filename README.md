@@ -7,7 +7,7 @@ Normally, the Tabs package will open a new tab for each file, and it will stay o
 sublime-tabs enables you to click a file through the Tree View on the left, it will open it as a "temp" file like sublime does,
 and will close the tab if another tab is opened without you editing it.
 
-[![Build Status](https://travis-ci.org/ddavison/sublime-tabs.svg)](https://travis-ci.org/ddavison/sublime-tabs)
+[![Build Status](https://travis-ci.org/ddavison/sublime-tabs.svg?branch=master)](https://travis-ci.org/ddavison/sublime-tabs)
 
 ![example](https://raw.githubusercontent.com/ddavison/sublime-tabs/master/images/example.gif)
 
