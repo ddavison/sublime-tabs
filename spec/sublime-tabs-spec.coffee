@@ -57,3 +57,14 @@ describe 'SublimeTabBarView', ->
       runs ->
         pane.activateItem(editor2)
         expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
+
+    it 'makes the tab permanent when dbl clicking the tab', ->
+      editor2 = null
+
+      waitsForPromise ->
+        atom.project.open('sample.txt').then (o) -> editor2 = o
+
+      runs ->
+        pane.activateItem(editor2)
+        tabBar.tabForItem(editor2).trigger 'dblclick'
+        expect(tabBar.tabForItem(editor2)).not.toHaveClass 'temp'
