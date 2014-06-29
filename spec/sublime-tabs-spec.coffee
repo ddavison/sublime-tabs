@@ -68,3 +68,21 @@ describe 'SublimeTabBarView', ->
         pane.activateItem(editor2)
         tabBar.tabForItem(editor2).trigger 'dblclick'
         expect(tabBar.tabForItem(editor2)).not.toHaveClass 'temp'
+
+    it 'will replace an existing temporary tab', ->
+      editor2 = null
+      editor3 = null
+
+      waitsForPromise ->
+        atom.project.open('sample.txt').then (o) ->
+          editor2 = o
+          pane.activateItem(editor2)
+          atom.project.open('sample2.txt').then (o) ->
+            editor3 = o
+            pane.activateItem(editor3)
+
+      runs ->
+        expect(editor2.isDestroyed()).toBe true
+        expect(editor3.isDestroyed()).toBe false
+        expect(tabBar.tabForItem(editor2)?).toBe false
+        expect(tabBar.tabForItem(editor3)).toHaveClass 'temp'
