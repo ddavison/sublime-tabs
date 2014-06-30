@@ -99,9 +99,13 @@ module.exports =
 
   disableStockPackages: ->
     if atom.packages.isPackageLoaded('tabs')
-        atom.packages.deactivatePackage('tabs')
         atom.packages.disablePackage('tabs')
+        setTimeout ->
+          atom.packages.deactivatePackage('tabs')
+        , 2000
 
     if atom.packages.isPackageLoaded('tree-view')
-        atom.packages.deactivatePackage('tree-view')
         atom.packages.disablePackage('tree-view')
+        setTimeout ->
+          atom.packages.deactivatePackage('tree-view')
+        , 2000
