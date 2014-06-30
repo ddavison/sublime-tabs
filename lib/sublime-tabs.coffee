@@ -15,6 +15,7 @@ module.exports =
 
   activate: (@state) ->
     @forceSettings()
+    @disableStockPackages()
 
     # tabs
     @paneSubscription = atom.workspaceView.eachPaneView (paneView) =>
