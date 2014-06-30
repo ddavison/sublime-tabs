@@ -113,3 +113,16 @@ describe 'SublimeTabBarView', ->
 
         it 'replaces an existing temp tab', ->
           expect(tabBar.tabForItem(editor2)).not.toExist()
+
+      describe 'when opening an image', ->
+
+        it 'should be temporary', ->
+          imageView = null
+
+          waitsForPromise ->
+            atom.workspace.open('sample.png').then (o) ->
+              imageView = o
+              pane.activateItem(imageView)
+
+          runs ->
+            expect(tabBar.tabForItem(imageView)).toHaveClass 'temp'
