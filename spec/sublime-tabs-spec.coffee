@@ -4,8 +4,27 @@ path                      = require 'path'
 SublimeTabBarView         = require '../lib/sublime-tab-bar-view'
 SublimeTabView            = require '../lib/sublime-tab-view'
 
+describe "SublimeTabs Initialization ", ->
+  beforeEach ->
+    atom.workspaceView = new WorkspaceView
+
+    waitsForPromise ->
+      atom.workspace.open('sample.js')
+      atom.packages.activatePackage('tabs')
+      atom.packages.activatePackage('tree-view')
+
+  it 'should deactivate and disable the tabs and tree-view package', ->
+    waitsForPromise ->
+      atom.packages.activatePackage('sublime-tabs')
+
+    runs ->
+      expect(atom.packages.isPackageActive('tabs')).toBe false
+      expect(atom.packages.isPackageActive('tree-view')).toBe false
+      expect(atom.packages.isPackageDisabled('tabs')).toBe true
+      expect(atom.packages.isPackageDisabled('tree-view')).toBe true
+
 describe 'Sublime Tabs Package', ->
-  beforeEach: ->
+  beforeEach ->
     atom.workspaceView = new WorkspaceView
 
     waitsForPromise ->
