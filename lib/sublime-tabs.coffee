@@ -101,10 +101,8 @@ module.exports =
     if atom.packages.isPackageLoaded('tabs')
       setTimeout ->
         atom.packages.disablePackage('tabs')
-        atom.packages.unloadPackage('tabs')
       , 2000
     else if atom.packages.isPackageLoaded('tree-view')
       setTimeout ->
         atom.packages.disablePackage('tree-view')
-        atom.packages.unloadPackage('tree-view')
       , 2000
