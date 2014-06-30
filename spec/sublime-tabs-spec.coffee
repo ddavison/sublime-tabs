@@ -4,24 +4,24 @@ path                      = require 'path'
 SublimeTabBarView         = require '../lib/sublime-tab-bar-view'
 SublimeTabView            = require '../lib/sublime-tab-view'
 
-describe "SublimeTabs Initialization ", ->
+describe 'SublimeTabs Initialization', ->
   beforeEach ->
     atom.workspaceView = new WorkspaceView
 
     waitsForPromise ->
       atom.workspace.open('sample.js')
+    waitsForPromise ->
       atom.packages.activatePackage('tabs')
+    waitsForPromise ->
       atom.packages.activatePackage('tree-view')
-
-  it 'should deactivate and disable the tabs and tree-view package', ->
     waitsForPromise ->
       atom.packages.activatePackage('sublime-tabs')
 
-    runs ->
-      expect(atom.packages.isPackageActive('tabs')).toBe false
-      expect(atom.packages.isPackageActive('tree-view')).toBe false
-      expect(atom.packages.isPackageDisabled('tabs')).toBe true
-      expect(atom.packages.isPackageDisabled('tree-view')).toBe true
+  it 'should deactivate and disable the tabs and tree-view package', ->
+    expect(atom.packages.isPackageActive('tabs')).toBe false
+    expect(atom.packages.isPackageActive('tree-view')).toBe false
+    expect(atom.packages.isPackageDisabled('tabs')).toBe true
+    expect(atom.packages.isPackageDisabled('tree-view')).toBe true
 
 describe 'Sublime Tabs Package', ->
   beforeEach ->
@@ -78,8 +78,6 @@ describe 'SublimeTabBarView', ->
           pane.activateItem(editor2)
           expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
 
-
-
       describe 'when there is an temp tab already', ->
         it 'will replace an existing temporary tab', ->
           editor2 = null
@@ -134,7 +132,6 @@ describe 'SublimeTabBarView', ->
           expect(tabBar.tabForItem(editor2)).not.toExist()
 
       describe 'when opening an image', ->
-
         it 'should be temporary', ->
           imageView = null
 
