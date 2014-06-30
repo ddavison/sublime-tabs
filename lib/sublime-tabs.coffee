@@ -95,3 +95,15 @@ module.exports =
     value = atom.config.get 'sublime-tabs.' + "#{key}"
     value ?= atom.config.getDefault 'sublime-tabs.' + "#{key}"
     atom.config.set(masterKey + '.' + key, atom.config.get('sublime-tabs.' + "#{key}"))
+
+  disableStockPackages: ->
+    if atom.packages.isPackageLoaded('tabs')
+      setTimeout ->
+        atom.packages.disablePackage('tabs')
+        atom.packages.unloadPackage('tabs')
+      , 2000
+    else if atom.packages.isPackageLoaded('tree-view')
+      setTimeout ->
+        atom.packages.disablePackage('tree-view')
+        atom.packages.unloadPackage('tree-view')
+      , 2000
