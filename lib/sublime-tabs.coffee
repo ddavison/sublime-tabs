@@ -15,6 +15,7 @@ module.exports =
 
   activate: (@state) ->
     @forceSettings()
+    @disableStockPackages()
 
     # tabs
     @paneSubscription = atom.workspaceView.eachPaneView (paneView) =>
@@ -95,3 +96,18 @@ module.exports =
     value = atom.config.get 'sublime-tabs.' + "#{key}"
     value ?= atom.config.getDefault 'sublime-tabs.' + "#{key}"
     atom.config.set(masterKey + '.' + key, atom.config.get('sublime-tabs.' + "#{key}"))
+
+  disableStockPackages: ->
+    if atom.packages.isPackageLoaded('tabs')
+        atom.packages.disablePackage('tabs')
+        atom.packages.deactivatePackage('tabs')
+        setTimeout ->
+          atom.packages.deactivatePackage('tabs')
+        , 2000
+
+    if atom.packages.isPackageLoaded('tree-view')
+        atom.packages.disablePackage('tree-view')
+        atom.packages.deactivatePackage('tree-view')
+        setTimeout ->
+          atom.packages.deactivatePackage('tree-view')
+        , 2000
