@@ -10,7 +10,6 @@ class SublimeTabView extends TabView
     super(@item, @pane)
     return unless considerTemporary
 
-    console.log @item.constructor.name
     if @item.constructor.name is 'Editor' ||
        @item.constructor.name is 'ImageEditor'
       if @item.getPath() in openPermanent
