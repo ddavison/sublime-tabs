@@ -11,6 +11,9 @@ and will close the tab if another tab is opened without you editing it.
 
 ![example](https://raw.githubusercontent.com/ddavison/sublime-tabs/master/images/example.gif)
 
+[![star this repo](http://github-svg-buttons.herokuapp.com/star.svg?user=ddavison&repo=sublime-tabs)](http://github.com/ddavison/sublime-tabs)
+[![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=ddavison&repo=sublime-tabs)](http://github.com/ddavison/sublime-tabs/fork)
+
 ## To Use
 Install either through the Atom package search, or by:
 ```sh
