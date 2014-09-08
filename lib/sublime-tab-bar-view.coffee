@@ -18,6 +18,10 @@ class SublimeTabBarView extends TabBarView
       path = atom.project?.relativize(pathToOpen) ? pathToOpen
       @openPermanent.push pathToOpen unless pathToOpen in @openPermanent
 
+    @subscribe atom.workspaceView, 'core:save', ->
+      tab = atom.workspaceView.find('.tab.active')
+      tab.removeClass('temp') if tab.is('.temp')
+
     # Tabs added manually by the user should consider temporary status.
     @considerTemp = true
 
