@@ -1,12 +1,11 @@
-_                      = require 'underscore-plus'
-os                     = require 'os'
-fs                     = require 'fs-plus'
-path                   = require 'path'
-temp                   = require('temp').track()
-wrench                 = require 'wrench'
-
+_ = require 'underscore-plus'
 {$, $$, WorkspaceView} = require 'atom'
-TreeView               = require '../lib/sublime-tree-view'
+fs = require 'fs-plus'
+TreeView = require '../lib/sublime-tree-view'
+path = require 'path'
+temp = require('temp').track()
+wrench = require 'wrench'
+os = require 'os'
 
 waitsForFileToOpen = (fn) ->
   openHandler = jasmine.createSpy()
@@ -29,7 +28,7 @@ describe "TreeView", ->
     atom.workspaceView = new WorkspaceView
 
     waitsForPromise ->
-      atom.packages.activatePackage("sublime-tabs")
+      atom.packages.activatePackage("tree-view")
 
     runs ->
       atom.workspaceView.trigger 'tree-view:toggle'
@@ -72,13 +71,13 @@ describe "TreeView", ->
     describe "when the project has no path", ->
       beforeEach ->
         atom.project.setPath(undefined)
-        atom.packages.deactivatePackage("sublime-tabs")
+        atom.packages.deactivatePackage("tree-view")
 
         waitsForPromise ->
-          atom.packages.activatePackage("sublime-tabs")
+          atom.packages.activatePackage("tree-view")
 
         runs ->
-          treeView = atom.packages.getActivePackage("sublime-tabs").mainModule.createView()
+          treeView = atom.packages.getActivePackage("tree-view").mainModule.createView()
 
       it "does not attach to the root view or create a root node when initialized", ->
         expect(treeView.hasParent()).toBeFalsy()
@@ -112,40 +111,40 @@ describe "TreeView", ->
           expect(treeView.root).not.toExist()
 
       describe "when the project is assigned a path because a new buffer is saved", ->
-        it "creates a root directory view but does not attach to the root view", ->
+        it "creates a root directory view and attaches to the root view", ->
           waitsForPromise ->
             atom.workspaceView.open()
 
           runs ->
             projectPath = temp.mkdirSync('atom-project')
             atom.workspace.getActivePaneItem().saveAs(path.join(projectPath, 'test.txt'))
-            expect(treeView.hasParent()).toBeFalsy()
+            expect(treeView.hasParent()).toBeTruthy()
             expect(fs.absolute(treeView.root.getPath())).toBe fs.absolute(projectPath)
             expect(treeView.root.parent()).toMatchSelector(".tree-view")
 
     describe "when the root view is opened to a file path", ->
       it "does not attach to the root view but does create a root node when initialized", ->
-        atom.packages.deactivatePackage("sublime-tabs")
+        atom.packages.deactivatePackage("tree-view")
         atom.packages.packageStates = {}
 
         waitsForPromise ->
           atom.workspace.open('tree-view.js')
 
         waitsForPromise ->
-          atom.packages.activatePackage('sublime-tabs')
+          atom.packages.activatePackage('tree-view')
 
         runs ->
-          treeView = atom.packages.getActivePackage("sublime-tabs").mainModule.createView()
+          treeView = atom.packages.getActivePackage("tree-view").mainModule.createView()
           expect(treeView.hasParent()).toBeFalsy()
           expect(treeView.root).toExist()
 
     describe "when the root view is opened to a directory", ->
       it "attaches to the root view", ->
         waitsForPromise ->
-          atom.packages.activatePackage('sublime-tabs')
+          atom.packages.activatePackage('tree-view')
 
         runs ->
-          treeView = atom.packages.getActivePackage("sublime-tabs").mainModule.createView()
+          treeView = atom.packages.getActivePackage("tree-view").mainModule.createView()
           expect(treeView.hasParent()).toBeTruthy()
           expect(treeView.root).toExist()
 
@@ -154,14 +153,14 @@ describe "TreeView", ->
         dotGit = path.join(temp.mkdirSync('repo'), '.git')
         fs.makeTreeSync(dotGit)
         atom.project.setPath(dotGit)
-        atom.packages.deactivatePackage("sublime-tabs")
+        atom.packages.deactivatePackage("tree-view")
         atom.packages.packageStates = {}
 
         waitsForPromise ->
-          atom.packages.activatePackage('sublime-tabs')
+          atom.packages.activatePackage('tree-view')
 
         runs ->
-          {treeView} = atom.packages.getActivePackage("sublime-tabs").mainModule
+          {treeView} = atom.packages.getActivePackage("tree-view").mainModule
           expect(treeView).toBeFalsy()
 
   describe "serialization", ->
@@ -172,10 +171,10 @@ describe "TreeView", ->
         sampleJs.click()
 
       runs ->
-        atom.packages.deactivatePackage("sublime-tabs")
+        atom.packages.deactivatePackage("tree-view")
 
       waitsForPromise ->
-        atom.packages.activatePackage("sublime-tabs")
+        atom.packages.activatePackage("tree-view")
 
       runs ->
         treeView = atom.workspaceView.find(".tree-view").view()
@@ -187,10 +186,10 @@ describe "TreeView", ->
       atom.workspaceView.attachToDom()
       treeView.focus()
       expect(treeView.list).toMatchSelector ':focus'
-      atom.packages.deactivatePackage("sublime-tabs")
+      atom.packages.deactivatePackage("tree-view")
 
       waitsForPromise ->
-        atom.packages.activatePackage("sublime-tabs")
+        atom.packages.activatePackage("tree-view")
 
       runs ->
         treeView = atom.workspaceView.find(".tree-view").view()
@@ -514,20 +513,20 @@ describe "TreeView", ->
         expect(atom.workspaceView.getActiveView().isFocused).toBeFalsy()
 
   describe "when an directory is alt-clicked", ->
-    # describe "when the directory is collapsed", ->
-    #   it "recursively expands the directory", ->
-    #     treeView.root.click()
-    #     treeView.root.collapse()
+    describe "when the directory is collapsed", ->
+      it "recursively expands the directory", ->
+        treeView.root.click()
+        treeView.root.collapse()
 
-    #     expect(treeView.root).not.toHaveClass 'expanded'
-    #     treeView.root.trigger clickEvent({ altKey: true })
-    #     expect(treeView.root).toHaveClass 'expanded'
+        expect(treeView.root).not.toHaveClass 'expanded'
+        treeView.root.trigger clickEvent({ altKey: true })
+        expect(treeView.root).toHaveClass 'expanded'
 
-    #     children = treeView.root.find('.directory')
-    #     expect(children.length).toBeGreaterThan 0
-    #     children.each (index, child) ->
-    #       childView = $(child).view()
-    #       expect(childView).toHaveClass 'expanded'
+        children = treeView.root.find('.directory')
+        expect(children.length).toBeGreaterThan 0
+        children.each (index, child) ->
+          childView = $(child).view()
+          expect(childView).toHaveClass 'expanded'
 
     describe "when the directory is expanded", ->
       parent    = null
@@ -575,14 +574,14 @@ describe "TreeView", ->
           dirView = treeView.root.find('.directory:contains(dir1)').view()
           expect(dirView).toHaveClass 'selected'
 
-    # describe "when the item has no path", ->
-    #   it "deselects the previously selected entry", ->
-    #     waitsForFileToOpen ->
-    #       sampleJs.click()
+    describe "when the item has no path", ->
+      it "deselects the previously selected entry", ->
+        waitsForFileToOpen ->
+          sampleJs.click()
 
-    #     runs ->
-    #       atom.workspaceView.getActivePaneView().activateItem($$ -> @div('hello'))
-    #       expect(atom.workspaceView.find('.selected')).not.toExist()
+        runs ->
+          atom.workspaceView.getActivePaneView().activateItem($$ -> @div('hello'))
+          expect(atom.workspaceView.find('.selected')).not.toExist()
 
   describe "when a different editor becomes active", ->
     beforeEach ->
@@ -820,20 +819,20 @@ describe "TreeView", ->
             treeView.trigger 'tree-view:expand-directory'
 
     describe "tree-view:recursive-expand-directory", ->
-      # describe "when an collapsed root is recursively expanded", ->
-      #   it "expands the root and all subdirectories", ->
-      #     treeView.root.click()
-      #     treeView.root.collapse()
+      describe "when an collapsed root is recursively expanded", ->
+        it "expands the root and all subdirectories", ->
+          treeView.root.click()
+          treeView.root.collapse()
 
-      #     expect(treeView.root).not.toHaveClass 'expanded'
-      #     treeView.trigger 'tree-view:recursive-expand-directory'
-      #     expect(treeView.root).toHaveClass 'expanded'
+          expect(treeView.root).not.toHaveClass 'expanded'
+          treeView.trigger 'tree-view:recursive-expand-directory'
+          expect(treeView.root).toHaveClass 'expanded'
 
-      #     children = treeView.root.find('.directory')
-      #     expect(children.length).toBeGreaterThan 0
-      #     children.each (index, child) ->
-      #       childView = $(child).view()
-      #       expect(childView).toHaveClass 'expanded'
+          children = treeView.root.find('.directory')
+          expect(children.length).toBeGreaterThan 0
+          children.each (index, child) ->
+            childView = $(child).view()
+            expect(childView).toHaveClass 'expanded'
 
     describe "tree-view:collapse-directory", ->
       subdir = null
@@ -890,20 +889,20 @@ describe "TreeView", ->
         children.each (index, child) ->
           $(child).view().expand()
 
-      # describe "when an expanded directory is recursively collapsed", ->
-      #   it "collapses the directory and all its child directories", ->
-      #     parent.click().expand()
-      #     expect(parent).toHaveClass 'expanded'
-      #     children.each (index, child) ->
-      #       $(child).view().click().expand()
-      #       expect($(child).view()).toHaveClass 'expanded'
+      describe "when an expanded directory is recursively collapsed", ->
+        it "collapses the directory and all its child directories", ->
+          parent.click().expand()
+          expect(parent).toHaveClass 'expanded'
+          children.each (index, child) ->
+            $(child).view().click().expand()
+            expect($(child).view()).toHaveClass 'expanded'
 
-      #     treeView.trigger 'tree-view:recursive-collapse-directory'
+          treeView.trigger 'tree-view:recursive-collapse-directory'
 
-      #     expect(parent).not.toHaveClass 'expanded'
-      #     children.each (index, child) ->
-      #       expect($(child).view()).not.toHaveClass 'expanded'
-      #     expect(treeView.root).toHaveClass 'expanded'
+          expect(parent).not.toHaveClass 'expanded'
+          children.each (index, child) ->
+            expect($(child).view()).not.toHaveClass 'expanded'
+          expect(treeView.root).toHaveClass 'expanded'
 
     describe "tree-view:open-selected-entry", ->
       describe "when a file is selected", ->
@@ -941,7 +940,7 @@ describe "TreeView", ->
     [dirView, fileView, dirView2, fileView2, fileView3, rootDirPath, dirPath, filePath, dirPath2, filePath2, filePath3] = []
 
     beforeEach ->
-      atom.packages.deactivatePackage('sublime-tabs')
+      atom.packages.deactivatePackage('tree-view')
 
       rootDirPath = fs.absolute(temp.mkdirSync('tree-view'))
 
@@ -962,7 +961,7 @@ describe "TreeView", ->
       atom.project.setPath(rootDirPath)
 
       waitsForPromise ->
-        atom.packages.activatePackage('sublime-tabs')
+        atom.packages.activatePackage('tree-view')
 
       runs ->
         atom.workspaceView.trigger 'tree-view:toggle'
@@ -1681,27 +1680,27 @@ describe "TreeView", ->
         it "duplicates the current file", ->
           expect(copyDialog.miniEditor.getText()).toBe('tree-view.js')
 
-    # describe "tree-view:remove", ->
-    #   it "won't remove the root directory", ->
-    #     spyOn(atom, 'confirm')
-    #     atom.workspaceView.attachToDom()
-    #     treeView.show()
-    #     treeView.root.view().click()
-    #     treeView.trigger 'tree-view:remove'
+    describe "tree-view:remove", ->
+      it "won't remove the root directory", ->
+        spyOn(atom, 'confirm')
+        atom.workspaceView.attachToDom()
+        treeView.show()
+        treeView.root.view().click()
+        treeView.trigger 'tree-view:remove'
 
-    #     args = atom.confirm.mostRecentCall.args[0]
-    #     expect(args.buttons).toEqual ['OK']
+        args = atom.confirm.mostRecentCall.args[0]
+        expect(args.buttons).toEqual ['OK']
 
-    #   it "shows the native alert dialog", ->
-    #     spyOn(atom, 'confirm')
+      it "shows the native alert dialog", ->
+        spyOn(atom, 'confirm')
 
-    #     waitsForFileToOpen ->
-    #       fileView.click()
+        waitsForFileToOpen ->
+          fileView.click()
 
-    #     runs ->
-    #       treeView.trigger 'tree-view:remove'
-    #       args = atom.confirm.mostRecentCall.args[0]
-    #       expect(Object.keys(args.buttons)).toEqual ['Move to Trash', 'Cancel']
+        runs ->
+          treeView.trigger 'tree-view:remove'
+          args = atom.confirm.mostRecentCall.args[0]
+          expect(Object.keys(args.buttons)).toEqual ['Move to Trash', 'Cancel']
 
   describe "file system events", ->
     temporaryFilePath = null
@@ -1866,7 +1865,7 @@ describe "TreeView", ->
     [dirView, fileView1, fileView2, fileView3, treeView, rootDirPath, dirPath, filePath1, filePath2, filePath3] = []
 
     beforeEach ->
-      atom.packages.deactivatePackage('sublime-tabs')
+      atom.packages.deactivatePackage('tree-view')
 
       rootDirPath = fs.absolute(temp.mkdirSync('tree-view'))
 
@@ -1883,7 +1882,7 @@ describe "TreeView", ->
       atom.project.setPath(rootDirPath)
 
       waitsForPromise ->
-        atom.packages.activatePackage('sublime-tabs')
+        atom.packages.activatePackage('tree-view')
 
       runs ->
         atom.workspaceView.trigger 'tree-view:toggle'
