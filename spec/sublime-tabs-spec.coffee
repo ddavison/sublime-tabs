@@ -142,3 +142,16 @@ describe 'SublimeTabBarView', ->
 
           runs ->
             expect(tabBar.tabForItem(imageView)).toHaveClass 'temp'
+
+      describe 'when saving a file'
+        it 'makes the tab permanent'
+          editor2 = null
+          waitsForPromise ->
+            atom.workspace.open('sample.txt').then (o) ->
+              editor2 = o
+              pane.activateItem(editor2)
+
+            atom
+
+          runs ->
+            expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
