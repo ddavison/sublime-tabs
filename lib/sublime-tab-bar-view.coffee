@@ -1,6 +1,6 @@
 {$}             = require 'atom'
 
-TabBarView      = require atom.packages.resolvePackagePath('tabs') + '/lib/tab-bar-view'
+TabBarView      = require './tabs/tab-bar-view'
 SublimeTabView  = require './sublime-tab-view'
 
 module.exports =
