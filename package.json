@@ -1,7 +1,7 @@
 {
   "name": "sublime-tabs",
   "main": "./lib/sublime-tabs",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Sublime-style tabs",
   "repository": "https://github.com/ddavison/sublime-tabs",
   "license": "MIT",
