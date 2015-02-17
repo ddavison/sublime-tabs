@@ -6,11 +6,13 @@ module.exports =
   configDefaults:
     # tabs
     showIcons: true
+
     # tree view
     hideVcsIgnoredFiles: false
     hideIgnoredNames: false
     showOnRightSide: false
-
+    sortFoldersBeforeFiles: true
+    
   treeView: null
 
   activate: (@state) ->
@@ -91,6 +93,10 @@ module.exports =
     @forceSettingKey('tree-view','showOnRightSide')
     atom.config.observe 'sublime-tabs.' + 'showOnRightSide', =>
       @forceSettingKey('tree-view','showOnRightSide')
+
+    @forceSettingKey('tree-view','sortFoldersBeforeFiles')
+    atom.config.observe 'sublime-tabs.' + 'sortFoldersBeforeFiles', =>
+      @forceSettingKey('tree-view','sortFoldersBeforeFiles')
 
   forceSettingKey: (masterKey, key) ->
     value = atom.config.get 'sublime-tabs.' + "#{key}"
