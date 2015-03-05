@@ -57,9 +57,9 @@
   'ctrl-9': 'tree-view:open-selected-entry-in-pane-9'
 
 '.tree-view':
-  'right': 'tree-view:expand-directory'
-  'ctrl-]': 'tree-view:expand-directory'
-  'l': 'tree-view:expand-directory'
+  'right': 'tree-view:expand-directory-or-preview-file'
+  'ctrl-]': 'tree-view:expand-directory-or-preview-file'
+  'l': 'tree-view:expand-directory-or-preview-file'
   'left': 'tree-view:collapse-directory'
   'ctrl-[': 'tree-view:collapse-directory'
   'alt-ctrl-]': 'tree-view:recursive-expand-directory'
