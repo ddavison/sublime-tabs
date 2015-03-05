@@ -1,3 +1,6 @@
+## 0.5.0
+* @piohhmy added the ability to browse the file tree with sublime tabs (right arrow will open files / expand folders)
+
 ## 0.3.1
 * Added option to keep tab. Useful for tabs that you open from packages, or the Settings tab.
 
