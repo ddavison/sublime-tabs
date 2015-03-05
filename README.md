@@ -11,6 +11,13 @@ and will close the tab if another tab is opened without you editing it.
 [![star this repo](http://github-svg-buttons.herokuapp.com/star.svg?user=ddavison&repo=sublime-tabs)](http://github.com/ddavison/sublime-tabs)
 [![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=ddavison&repo=sublime-tabs)](http://github.com/ddavison/sublime-tabs/fork)
 
+## Features
+
+- Allows you to single click a file in the tree view to open it temporarily like Sublime
+- Editing a temporary tab keeps it open
+- Saving / Double clicking the tab keeps the tab permanent
+- Browsing the tree view on the left using the :right_arrow: key allows you to open files
+
 ![example](https://raw.githubusercontent.com/ddavison/sublime-tabs/master/images/example.gif)
 
 ## To Use
