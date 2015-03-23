@@ -31,8 +31,9 @@ class SublimeTabBarView extends TabBarView
       false
 
   addTabForItem: (item, index) ->
-    for tab in @getTabs()
-      @closeTab(tab) if tab.is('.temp')
+    if item.activePanelName != "Settings"
+        for tab in @getTabs()
+          @closeTab(tab) if tab.is('.temp')
 
     tabView = new SublimeTabView(item, @pane, @openPermanent, @considerTemp)
     @insertTabAtIndex(tabView, index)
