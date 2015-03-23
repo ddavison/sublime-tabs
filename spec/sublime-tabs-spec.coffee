@@ -3,6 +3,7 @@ _                         = require 'underscore-plus'
 path                      = require 'path'
 SublimeTabBarView         = require '../lib/sublime-tab-bar-view'
 SublimeTabView            = require '../lib/sublime-tab-view'
+SublimeTreeView           = require '../lib/sublime-tree-view'
 
 describe 'SublimeTabs Initialization', ->
   beforeEach ->
@@ -154,3 +155,56 @@ describe 'SublimeTabBarView', ->
         runs ->
           atom.workspaceView.trigger 'core:save'
           expect(tabBar.tabForItem(editor2)).not.toHaveClass 'temp'
+
+
+describe "tree-view:expand-directory-or-preview-file", ->
+  treeView = null
+
+  beforeEach ->
+    fixturesPath = atom.project.getPaths()[0]
+    path1 = path.join(fixturesPath, "tree-view", "dir1")
+    atom.project.setPaths([path1])
+
+    workspaceElement = atom.views.getView(atom.workspace)
+
+    atom.workspaceView = new WorkspaceView
+    atom.workspace = atom.workspaceView.model
+
+    waitsForPromise ->
+      atom.packages.activatePackage("sublime-tabs")
+
+    runs ->
+      atom.commands.dispatch(workspaceElement, 'tree-view:toggle')
+      treeView = $(atom.workspace.getLeftPanels()[0].getItem()).view()
+
+  describe "when a collapsed directory is selected", ->
+    it "expands the directory", ->
+      subdir1 = treeView.find('.directory:eq(1)')
+      subdir1.click() # select and expand
+      subdir1.click() # collapse
+      expect(subdir1).not.toHaveClass 'expanded'
+
+      atom.commands.dispatch(treeView.element, 'tree-view:expand-directory-or-preview-file')
+
+      expect(subdir1).toHaveClass 'expanded'
+
+  describe "when an expanded directory is selected", ->
+    it "keeps the directory expanded", ->
+      subdir1 = treeView.find('.directory:eq(1)')
+      subdir1.click() # select and expand
+      expect(subdir1).toHaveClass 'expanded'
+
+      atom.commands.dispatch(treeView.element, 'tree-view:expand-directory-or-preview-file')
+
+      expect(subdir1).toHaveClass 'expanded'
+
+  describe "when a file is selected", ->
+    it "opens selected entry without loosing focus", ->
+      treeViewPackage = atom.packages.getActivePackage('sublime-tabs').mainModule.treeView
+      treeView.find('.directory:eq(1)').click()
+      atom.commands.dispatch(treeView.element, 'core:move-down')
+      spyOn(treeViewPackage, 'openSelectedEntry').andCallThrough()
+
+      atom.commands.dispatch(treeView.element, 'tree-view:expand-directory-or-preview-file')
+
+      expect(treeViewPackage.openSelectedEntry).toHaveBeenCalledWith(false)

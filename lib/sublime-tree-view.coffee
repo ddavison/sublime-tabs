@@ -9,7 +9,7 @@ class SublimeTreeView extends TreeView
   initialize: (state) ->
     super(state)
 
-    atom.commands.add '.tree-view',
+    atom.commands.add @element,
       'tree-view:expand-directory-or-preview-file', => @expandDirOrPreview()
 
     @on 'dblclick', '.entry', (e) ->
@@ -26,4 +26,4 @@ class SublimeTreeView extends TreeView
     if selectedEntry instanceof DirectoryView
       selectedEntry.expand(false)
     else if selectedEntry instanceof FileView
-      atom.workspace.open(selectedEntry.getPath(), activatePane:false)
+      @openSelectedEntry(false)
