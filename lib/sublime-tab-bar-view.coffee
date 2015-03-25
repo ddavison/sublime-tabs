@@ -31,7 +31,7 @@ class SublimeTabBarView extends TabBarView
       false
 
   addTabForItem: (item, index) ->
-    if item.activePanelName != "Settings"
+    if item.uri != "atom://config"
         for tab in @getTabs()
           @closeTab(tab) if tab.is('.temp')
 

@@ -128,8 +128,9 @@ describe 'SublimeTabBarView', ->
           expect(tabBar.tabForItem(settingsView)).toExist()
           expect(tabBar.tabForItem(settingsView)).not.toHaveClass 'temp'
 
-        it 'replaces an existing temp tab', ->
-          expect(tabBar.tabForItem(editor2)).not.toExist()
+        it 'keeps an existing temp tab', ->
+          expect(tabBar.tabForItem(editor2)).toExist()
+          expect(tabBar.tabForItem(editor2)).toHaveClass 'temp'
 
       describe 'when opening an image', ->
         it 'should be temporary', ->
