@@ -13,6 +13,7 @@ class TabView extends View
     @item.on? 'title-changed', =>
       @updateTitle()
       @updateTooltip()
+      @updateDataAttributes()
 
     @item.on? 'icon-changed', =>
       @updateIcon()
@@ -26,6 +27,7 @@ class TabView extends View
     @updateIcon()
     @updateModifiedStatus()
     @updateTooltip()
+    @updateDataAttributes()
 
   updateTooltip: ->
     @destroyTooltip()
@@ -55,6 +57,18 @@ class TabView extends View
 
     @title.text(title)
     @updatingTitle = false
+
+  updateDataAttributes: ->
+     return if @updatingDataAttributes
+     @updatingDataAttributes = true
+
+     if @item.getPath?
+       itemPath = @item.getPath()
+       name = path.basename(itemPath)
+       @title.attr 'data-path', itemPath
+       @title.attr 'data-name', name
+
+     @updatingDataAttributes = false
 
   updateIcon: ->
     if @iconName
