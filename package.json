@@ -3,6 +3,13 @@
   "main": "./lib/sublime-tabs",
   "version": "0.5.4",
   "description": "Sublime-style tabs",
+  "keywords": [
+    "sublime",
+    "tabs",
+    "interactivity",
+    "temporary",
+    "temp"
+  ],
   "repository": "https://github.com/ddavison/sublime-tabs",
   "license": "MIT",
   "private": true,
